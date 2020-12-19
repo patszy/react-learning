@@ -1,17 +1,36 @@
 import './App.css';
-import AppHeader from './components/AppHeader';
-import ContactsList from './components/ContactsList';
-import Counter from './components/Counter';
-import InputName from './components/InputName';
+import React from 'react';
+import UsersList from './components/UsersList';
 
-function App() {
-  return (
-    <div className="App">
+const allUsers = ["Michał", "Ania", "Kasia", "Tomek", "Jacek", "Marta"];
+
+class App extends React.Component {
+  constructor(){
+    super();
+
+    this.state = { filteredUsers: allUsers };
+  }
+
+  filterUsers(event){
+    const text = event.target.value;
+    const filteredUsers = this.getFilteredUsersForText(text);
+    this.setState({filteredUsers});
+  }
+
+  getFilteredUsersForText(text){
+    return allUsers.filter(user => user.toLowerCase().includes(text.toLowerCase()));
+  }
+
+  render() {
+    return(
+      <div className="App">
         <main>
-          <InputName />
+          <input onInput={this.filterUsers.bind(this)}/>
+          <UsersList users={this.state.filteredUsers}/>
         </main>
     </div>
-  );
+    )
+  };
 }
 
 export default App;
