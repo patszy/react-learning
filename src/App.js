@@ -25,7 +25,7 @@ class App extends React.Component {
     return(
       <div className="App">
         <main>
-          <input onInput={this.filterUsers.bind(this)}/>
+          <input onInput={()=>this.filterUsers}/>
           <UsersList users={this.state.filteredUsers}/>
         </main>
     </div>
