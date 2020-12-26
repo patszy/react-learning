@@ -8,25 +8,33 @@ class App extends React.Component {
   constructor(){
     super();
 
-    this.state = { filteredUsers: allUsers };
+    this.state = {
+      filteredUsers: allUsers,
+      selectedUser: null
+    };
   }
 
-  filterUsers(event){
+  filterUsers = event  => {
     const text = event.target.value;
     const filteredUsers = this.getFilteredUsersForText(text);
     this.setState({filteredUsers});
   }
 
-  getFilteredUsersForText(text){
+  getFilteredUsersForText = text => {
     return allUsers.filter(user => user.toLowerCase().includes(text.toLowerCase()));
+  }
+
+  onUserSelected = selectedUser => {
+    this.setState({selectedUser});
   }
 
   render() {
     return(
       <div className="App">
         <main>
-          <input onInput={()=>this.filterUsers}/>
-          <UsersList users={this.state.filteredUsers}/>
+          <div>{this.state.selectedUser}</div>
+          <input onInput={this.filterUsers}/>
+          <UsersList users={this.state.filteredUsers} userSelected={this.onUserSelected}/>
         </main>
     </div>
     )
