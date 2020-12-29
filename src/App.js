@@ -1,40 +1,52 @@
 import './App.css';
 import React from 'react';
-import UsersList from './components/UsersList';
-
-const allUsers = ["Michał", "Ania", "Kasia", "Tomek", "Jacek", "Marta"];
 
 class App extends React.Component {
   constructor(){
     super();
 
     this.state = {
-      filteredUsers: allUsers,
-      selectedUser: null
+      name: "",
+      color: "",
+      content: "",
+      license: false,
+      input: null
     };
   }
 
-  filterUsers = event  => {
-    const text = event.target.value;
-    const filteredUsers = this.getFilteredUsersForText(text);
-    this.setState({filteredUsers});
+  handleName = event => {
+    this.setState({ name: event.target.value });
   }
 
-  getFilteredUsersForText = text => {
-    return allUsers.filter(user => user.toLowerCase().includes(text.toLowerCase()));
+  handleColor = event => {
+    this.setState({ color: event.target.value });
   }
 
-  onUserSelected = selectedUser => {
-    this.setState({selectedUser});
+  handleContent = event => {
+    this.setState({ content: event.target.value });
+  }
+
+  handleLicense = event => {
+    this.setState({ license: event.target.checked });
   }
 
   render() {
     return(
       <div className="App">
         <main>
-          <div>{this.state.selectedUser}</div>
-          <input onInput={this.filterUsers}/>
-          <UsersList users={this.state.filteredUsers} userSelected={this.onUserSelected}/>
+          {/* Controlled forms */}
+          <input type="text" value={this.state.name} onChange={this.handleName}/>
+          <select value={this.state.color} onChange={this.handleColor}>
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+          </select>
+          <textarea value={this.state.content} onChange={this.handleContent}/>
+          <input type="checkbox" checked={this.state.license} onChange={this.handleLicense}/>
+          {/* Uncontrolled forms */}
+          <input ref={input => this.input = input} defaultValue="Address"/>
+          {/* Always uncotrolled */}
+          <input type="file"/>
         </main>
     </div>
     )
